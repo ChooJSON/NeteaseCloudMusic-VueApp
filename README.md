@@ -1,6 +1,11 @@
-# netease-app
+# NeteaseCloudMusic-VueApp
+
+Under developing......
+
+(・∀・(・∀・(・∀・*)
 
 ## Project setup
+
 ```
 npm install
 ```
