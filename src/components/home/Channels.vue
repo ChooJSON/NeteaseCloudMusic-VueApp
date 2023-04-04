@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-04 01:58:08
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-04 02:32:48
+ * @LastEditTime: 2023-04-04 15:46:38
  * @Description: Please write the description of this file.
 -->
 <template>
@@ -46,9 +46,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: .28rem;
+      font-size: .24rem;
       i {
-        padding-bottom: .2rem;
+        padding-bottom: .1rem;
       }
     }
   }

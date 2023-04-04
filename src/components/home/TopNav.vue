@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-04 00:03:21
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-04 00:26:12
+ * @LastEditTime: 2023-04-04 18:09:11
  * @Description: Top navigation
 -->
 <template>
@@ -24,23 +24,23 @@
 </template>
 
 <style lang="less" scoped>
-  .topNav {
-    width: 100%;
-    height: 1.2rem;
-    padding: .4rem;
+.topNav {
+  width: 100%;
+  height: 1.2rem;
+  padding: .4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .topBar {
+    width: 55%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .topBar {
-      width: 55%;
-      height: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: .32rem;
-      .active {
-        font-weight: bold
-      }
+    font-size: .32rem;
+    .active {
+      font-weight: bold
     }
   }
+}
 </style>

@@ -4,7 +4,7 @@
  * @Date: 2023-04-04 01:45:25
  * @LastEditors: RiverHell
  * @LastEditTime: 2023-04-04 04:37:40
- * @Description: Please write the description of this file.
+ * @Description: Get home data for HomeView.vue.
  */
 
 import service from '..'
@@ -21,7 +21,7 @@ export function getBanner() {
 export function getMusicLists() {
   return service({
     method: 'GET',
-    url: '/personalized?limit=10',
+    url: '/personalized?limit=6',
   })
 }
 

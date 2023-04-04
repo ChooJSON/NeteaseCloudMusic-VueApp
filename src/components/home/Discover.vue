@@ -3,8 +3,8 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-04 02:36:34
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-04 06:24:11
- * @Description: Discover music list
+ * @LastEditTime: 2023-04-04 16:59:08
+ * @Description: Discover music list.
 -->
 
 <template>
@@ -22,15 +22,22 @@
         class="my-swipe" 
         :show-indicators="false"
       >
-        <van-swipe-item v-for="item in musicLists" :key="item" class="musicList">
-          <div class="imgWrap">
-            <img :src="item.picUrl"/>
-          </div>
-          <span class="playCount">
-            {{ changeCount(item.playCount) }}
-            <i class="fa-solid fa-headphones"></i>
-          </span>
-          <span class="listTitle">{{ item.name }}</span>
+        <van-swipe-item v-for="item in state.musicLists" :key="item" class="musicList">
+          <router-link :to="{
+            path: '/musiclist',
+            query: {
+              id: item.id
+            }
+          }">
+            <div class="imgWrap">
+              <img :src="item.picUrl"/>
+            </div>
+            <span class="playCount">
+              {{ changeCount(item.playCount) }}
+              <i class="fa-solid fa-headphones"></i>
+            </span>
+            <span class="listTitle">{{ item.name }}</span>
+        </router-link>
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -42,17 +49,27 @@
   import { getMusicLists } from '@/request/api/home.js'
 
   export default {
-    // setup() {
-    //   const state = reactive({
-    //     musicLists: []
-    //   })
-    //   onMounted(async () => {
-    //     let res = await getMusicLists()
-    //     console.log(res)
-    //   })
-    //   return { state }
-    // },
-    data() {
+    // Vue3 grammar
+    setup() {
+      const state = reactive({
+        musicLists: []
+      })
+      function changeCount(num) {
+        if (num >= 100000000) {
+          return (num / 100000000).toFixed(1) + '亿'
+        } else if (num >= 10000) {
+          return (num / 10000).toFixed(1) + '万'
+        }
+      }
+      onMounted(async () => {
+        let res = await getMusicLists()
+        state.musicLists = res.data.result
+      })
+      return { state, changeCount }
+    },
+    
+    // Vue2 grammar
+    /* data() {
       return {
         musicLists: []
       }
@@ -73,7 +90,7 @@
     },
     mounted() {
       this.getDiscover()
-    }
+    } */
   }
 </script>
 
@@ -81,7 +98,7 @@
   .discover {
     width: 100%;
     height: 6rem;
-    padding: .4rem;
+    padding: 0 .4rem 0 .4rem;
     .topBar {
       display: flex;
       justify-content: space-between;
@@ -109,22 +126,23 @@
             margin-bottom: .1rem;
             img {
               width: 100%;
-              border-radius: .3rem;
+              border-radius: .2rem;
               object-fit: cover;
             }
           }
           .playCount {
-            font-size: .28rem;
             i {
-              font-size: .28rem;
+              font-size: .2rem;
               margin-left: .05rem;
+              text-shadow: black .01rem .01rem .05rem;
             }
+            font-size: .2rem;
+            text-shadow: black .01rem .01rem .05rem;
             align-items: center;
             color: white;
-            mix-blend-mode: screen;
             position: absolute;
-            top: .1rem;
-            right: .4rem;
+            top: .08rem;
+            right: .35rem;
           }
         }
       }

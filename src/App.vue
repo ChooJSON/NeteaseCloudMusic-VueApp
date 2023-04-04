@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-03 22:25:27
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-04 00:13:38
+ * @LastEditTime: 2023-04-04 16:29:11
  * @Description: Please write the description of this file.
 -->
 <template>
@@ -17,6 +17,10 @@
   box-sizing: border-box;
   font-family: 'Noto Sans SC', sans-serif;
 
+}
+
+a {
+  color: black;
 }
 
 // set icon size
