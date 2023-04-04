@@ -11,8 +11,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// 
 import '@fortawesome/fontawesome-free/css/all.css'
-
+// Vant
 import getVant from './plugins/index.js'
 
 

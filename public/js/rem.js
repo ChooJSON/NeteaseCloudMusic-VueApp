@@ -7,7 +7,7 @@
  * @Description: Implementing rem layouts.
  */
 
-
+// set the rem
 function remSize() {
   // get the width of the device
   let deviceWidth = document.documentElement.clientWidth || window.innerWidth

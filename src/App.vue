@@ -4,7 +4,7 @@
  * @Date: 2023-04-03 22:25:27
  * @LastEditors: RiverHell
  * @LastEditTime: 2023-04-04 16:29:11
- * @Description: Please write the description of this file.
+ * @Description: Main vue file.
 -->
 <template>
   <router-view/>
