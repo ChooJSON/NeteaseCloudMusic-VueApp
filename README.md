@@ -1,5 +1,11 @@
 # NeteaseCloudMusic-VueApp
 
+Using:
+- Vue3
+- Axios
+- Vant UI
+- NeteaseCloudMusicApi
+
 Under developing......
 
 (・∀・(・∀・(・∀・*)

@@ -4,7 +4,7 @@
  * @Date: 2023-04-04 00:58:26
  * @LastEditors: RiverHell
  * @LastEditTime: 2023-04-04 00:58:48
- * @Description: Please write the description of this file.
+ * @Description: Use vant components.
  */
 
 import { Swipe, SwipeItem, Button } from 'vant'
