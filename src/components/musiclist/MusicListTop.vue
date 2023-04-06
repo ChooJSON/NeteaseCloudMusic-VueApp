@@ -3,8 +3,8 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-04 17:52:32
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-04 19:41:01
- * @Description: Please write the description of this file.
+ * @LastEditTime: 2023-04-06 19:10:21
+ * @Description: Top part of music list details page.
 -->
 
 <template>
@@ -23,12 +23,19 @@
   </div>
 
   <div class="detail">
-    <img :src="playlist.coverImgUrl" class="cover"/>
+    <div class="detailCover">
+      <img :src="playlist.coverImgUrl" class="cover"/>
+      <span class="playCount">
+        {{ changeCount(playlist.playCount) }}
+        <i class="fa-solid fa-headphones"></i>
+      </span>
+    </div>
+    
     <div class="detailRight">
       <div class="detailTitle">{{ playlist.name }}</div>
       <div class="creator">
-        <!-- <img :src="playlist.creator.avatarUrl" class="avatar"/> -->
-        <!-- <div class="name">{{ playlist.creator.nickname }}</div> -->
+        <img :src="playlist.creator.avatarUrl" class="avatar"/>
+        <div class="name">{{ playlist.creator.nickname }}</div>
         <i class="fa-solid fa-chevron-right"></i>
       </div>
       <div class="detailContent">
@@ -43,11 +50,11 @@
   <div class="buttonList">
     <div class="button">
       <i class="fa-solid fa-comments"></i>
-      <div class="buttonType">{{ playlist.commentCount }}</div>
+      <div class="buttonType">{{ changeCount(playlist.commentCount) }}</div>
     </div>
     <div class="button">
       <i class="fa-solid fa-share-nodes"></i>
-      <div class="buttonType">{{ playlist.shareCount }}</div>
+      <div class="buttonType">{{ changeCount(playlist.shareCount) }}</div>
     </div>
     <div class="button">
       <i class="fa-solid fa-cloud-arrow-down"></i>
@@ -63,7 +70,18 @@
 <script>
 export default {
   setup(props) {
-    console.log(props.playlist)
+    if (props.playlist.creator = "") {
+      props.playlist.creator = JSON.parse(sessionStorage.getItem().playlist).creator
+    }
+    function changeCount(num) {
+      if (num >= 100000000) {
+        return (num / 100000000).toFixed(1) + '亿'
+      } else if (num >= 10000) {
+        return (num / 10000).toFixed(1) + '万'
+      }
+      return num
+    }
+    return { changeCount }
   },
   props: ['playlist']
 }
@@ -75,7 +93,7 @@ export default {
   object-fit: cover;
   position: fixed;
   z-index: -1;
-  filter: blur(.5rem);
+  filter: blur(.5rem) brightness(0.8);
 }
 
 i {
@@ -113,23 +131,53 @@ i {
   padding: .4rem;
   display: flex;
   justify-content: space-between;
-  
-  .cover {
-    height: 100%;
-    object-fit: cover;
-    border-radius: .2rem;
+
+  .detailCover {
+    position: relative;
+    .cover {
+      height: 100%;
+      object-fit: cover;
+      border-radius: .2rem;
+    }
+    .playCount {
+      i {
+        font-size: .08rem;
+        margin-left: .05rem;
+        text-shadow: black .01rem .01rem .05rem;
+      }
+      font-size: .08rem;
+      text-shadow: black .01rem .01rem .05rem;
+      align-items: center;
+      color: white;
+      position: absolute;
+      top: .05rem;
+      right: .16rem;
+    }
   }
+  
   .detailRight {
     padding-left: .4rem;
     .detailTitle {
       color: white;
-      font-size: .32rem;
+      font-size: .3rem;
       font-weight: bold;
     }
     .creator {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
+      margin-top: .15rem;
+      margin-bottom: .15rem;
       align-items: center;
+      font-size: .25rem;
+      color: rgba(255, 255, 255, 0.5);
+      img {
+        height: .5rem;
+        border-radius: 50%;
+      }
+      .name {
+        margin-left: .2rem;
+        margin-right: .1rem;
+      }
       i {
         color: rgba(255, 255, 255, 0.5);
         font-size: .1rem;
@@ -144,14 +192,13 @@ i {
       .content {
         color: rgba(255, 255, 255, 0.5);
         font-size: .2rem;
-        height: 1rem;
+        height: .72rem;
         overflow: hidden;
       }
       i {
         color: rgba(255, 255, 255, 0.5);
         font-size: .1rem;
-        margin-left: .1rem;
-        margin-right: .1rem;
+        margin-left: .2rem;
       }
     }
   }
@@ -169,7 +216,7 @@ i {
 .buttonList {
   display: flex;
   align-items: center;
-  padding: .2rem .4rem;
+  padding: .1rem .4rem .3rem .4rem;
   .button {
     flex: 1;
     display: flex;

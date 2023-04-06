@@ -60,6 +60,7 @@
         } else if (num >= 10000) {
           return (num / 10000).toFixed(1) + '万'
         }
+        return num
       }
       onMounted(async () => {
         let res = await getMusicLists()
@@ -134,15 +135,15 @@
             i {
               font-size: .2rem;
               margin-left: .05rem;
-              text-shadow: black .01rem .01rem .05rem;
+              text-shadow: black .01rem .01rem .1rem;
             }
             font-size: .2rem;
-            text-shadow: black .01rem .01rem .05rem;
+            text-shadow: black .01rem .01rem .1rem;
             align-items: center;
             color: white;
             position: absolute;
             top: .08rem;
-            right: .35rem;
+            right: .4rem;
           }
         }
       }
