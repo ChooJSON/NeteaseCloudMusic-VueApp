@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-04 17:52:32
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-06 19:10:21
+ * @LastEditTime: 2023-04-06 21:35:07
  * @Description: Top part of music list details page.
 -->
 
@@ -96,11 +96,10 @@ export default {
   filter: blur(.5rem) brightness(0.8);
 }
 
-i {
-  color: white;
-}
-
 .topNav {
+  i {
+    color: white;
+  }
   width: 100%;
   height: 1.2rem;
   padding: .4rem;
@@ -127,6 +126,9 @@ i {
 }
 
 .detail {
+  i {
+    color: white;
+  }
   height: 3.2rem;
   padding: .4rem;
   display: flex;
@@ -157,12 +159,23 @@ i {
   
   .detailRight {
     padding-left: .4rem;
+    display: flex;
+    flex-direction: column;
     .detailTitle {
       color: white;
       font-size: .3rem;
       font-weight: bold;
+      flex: none;
+      // When number of lines > -webkit-line-clamp, the subsequent content is hidden and the ellipsis is displayed.
+      word-break: break-all;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
     }
     .creator {
+      flex: none;
       display: flex;
       justify-content: flex-start;
       margin-top: .15rem;
@@ -186,6 +199,7 @@ i {
       }
     }
     .detailContent {
+      flex: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -193,6 +207,11 @@ i {
         color: rgba(255, 255, 255, 0.5);
         font-size: .2rem;
         height: .72rem;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
         overflow: hidden;
       }
       i {
@@ -202,18 +221,13 @@ i {
       }
     }
   }
-
-  // .creator {
-  //   display: flex;
-  //   justify-content: flex-start;
-  //   .avatar {
-  //     height: .3rem;
-  //   }
-  // }
   
 }
 
 .buttonList {
+  i {
+    color: white;
+  }
   display: flex;
   align-items: center;
   padding: .1rem .4rem .3rem .4rem;

@@ -8,7 +8,17 @@
 -->
 <template>
   <router-view/>
+  <FooterPlay/>
 </template>
+
+<script>
+import FooterPlay from "@/components/FooterPlay.vue";
+export default {
+  components: {
+    FooterPlay,
+  }
+}
+</script>
 
 <style lang="less">
 * {
@@ -16,7 +26,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Noto Sans SC', sans-serif;
-
 }
 
 a {
@@ -27,6 +36,5 @@ a {
 i {
   font-size: .5rem;
 }
-
 
 </style>

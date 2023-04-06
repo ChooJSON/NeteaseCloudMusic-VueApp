@@ -7,10 +7,10 @@
  * @Description: Use vant components.
  */
 
-import { Swipe, SwipeItem, Button } from 'vant'
+import { Swipe, SwipeItem, Button, Popup } from 'vant'
 
 let plugins = [
-  Swipe, SwipeItem, Button
+  Swipe, SwipeItem, Button, Popup
 ]
 
 // use vant components

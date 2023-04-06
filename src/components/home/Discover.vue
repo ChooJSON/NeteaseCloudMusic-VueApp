@@ -98,7 +98,7 @@
 <style lang="less">
   .discover {
     width: 100%;
-    height: 6rem;
+    height: auto;
     padding: 0 .4rem 0 .4rem;
     .topBar {
       display: flex;
@@ -115,7 +115,7 @@
     }
     .content {
       width: 100%;
-      height: 4.12rem;
+      height: auto;
       .my-swipe {
         height: 100%;
         van-swipe__track {
@@ -144,6 +144,14 @@
             position: absolute;
             top: .08rem;
             right: .4rem;
+          }
+          .listTitle {
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
           }
         }
       }

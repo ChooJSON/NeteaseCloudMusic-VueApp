@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-06 17:22:40
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-06 19:51:47
+ * @LastEditTime: 2023-04-07 04:32:38
  * @Description: All songs of the music list.
 -->
 
@@ -27,14 +27,14 @@
     <div class="songsList">
       <div class="item" v-for="(item, i) in songs" :key="i">
         <div class="itemLeft" @click="playMusic(i)">
-          <span class="itemNo">{{ i + 1 }}</span>
+          <span class="itemNo" :style="{fontSize: fontSize(i + 1)}">{{ i + 1 }}</span>
           <div class="itemContent">
             <p class="itemTitle">{{ item.name }}</p>
-            <span v-for="(subItem, index) in item.ar" :key="index" class="itemAuthor">{{ subItem.name }}</span>
+            <div class="itemAuthor">{{ formatAuthors(item.ar) }}</div>
           </div>
         </div>
         <div class="itemRight">
-          <i class="fa-brands fa-youtube"></i>
+          <i class="fa-brands fa-youtube" v-if="item.mv != 0"></i>
           <i class="fa-solid fa-bars"></i>
         </div>
       </div>
@@ -43,9 +43,12 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   setup(props) {
     console.log(props)
+
     function changeCount(num) {
       if (num >= 100000000) {
         return (num / 100000000).toFixed(1) + '亿'
@@ -54,14 +57,29 @@ export default {
       }
       return num
     }
-    return { changeCount }
+
+    function formatAuthors(arr) {
+      let authors = []
+      arr.forEach(item => {
+        authors.push(item.name)
+      })
+      return authors.join('/')
+    }
+
+    function fontSize(num) {
+      return 0.1 * (4 - String(num).length) + 'rem'
+    }
+
+    return { changeCount, formatAuthors, fontSize }
   },
   props: ['songs', 'subscribedCount'],
-  computed: {
-    authorList() {
-      return this.items.join(', ')
-    }
-  }
+  methods: {
+    playMusic: function (i) {
+      this.updatePlaylist(this.songs)
+      this.updatePlaylistIndex(i)
+    },
+    ...mapMutations(['updatePlaylist', 'updatePlaylistIndex'])
+  },
 }
 </script>
 
@@ -81,7 +99,7 @@ export default {
       display: flex;
       align-items: center;
       i {
-        color: #1e3050;
+        color: black;
       }
       .playAll {
         margin-left: .15rem;
@@ -90,7 +108,7 @@ export default {
     .optionRight {
       display: flex;
       align-items: center;
-      background-color: #1e3050;
+      background-color: black;
       color: white;
       padding: .15rem .25rem .15rem .25rem;
       border-radius: .5rem;
@@ -115,15 +133,15 @@ export default {
         display: flex;
         align-items: center;
         .itemNo {
-          width: .3rem;
+          width: .4rem;
           text-align: center;
           color: gray;
         }
         .itemContent {
           margin-left: .2rem;
-          width: 4rem;
+          width: 4.5rem;
           .itemTitle {
-            height: .5rem;
+            height: .45rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -132,6 +150,9 @@ export default {
           .itemAuthor {
             font-size: .2rem;
             color: gray;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }
@@ -140,7 +161,7 @@ export default {
         align-items: center;
         i {
           font-size: .4rem;
-          color: #1e3050;
+          color: black;
           padding-left: .3rem;
         }
       }

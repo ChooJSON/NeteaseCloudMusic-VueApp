@@ -4,7 +4,7 @@
  * @Date: 2023-04-03 22:25:27
  * @LastEditors: RiverHell
  * @LastEditTime: 2023-04-03 23:46:07
- * @Description: Please write the description of this file.
+ * @Description: Home page of the player.
 -->
 <template>
   <div class="home">
