@@ -47,8 +47,6 @@ import { mapMutations } from 'vuex'
 
 export default {
   setup(props) {
-    console.log(props)
-
     function changeCount(num) {
       if (num >= 100000000) {
         return (num / 100000000).toFixed(1) + '亿'

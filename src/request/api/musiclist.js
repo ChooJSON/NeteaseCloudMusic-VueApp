@@ -24,3 +24,11 @@ export function getMusicListSongs(id) {
     url: `/playlist/track/all?id=${id}&offset=0`,
   })
 }
+
+// get lyrics
+export function getLyrics(id) {
+  return service({
+    method: 'GET',
+    url: `/lyric?id=${id}`,
+  })
+}

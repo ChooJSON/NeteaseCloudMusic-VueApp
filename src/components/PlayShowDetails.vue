@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-07 05:00:00
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-07 07:26:55
+ * @LastEditTime: 2023-04-08 02:19:42
  * @Description: Current music details.
 -->
 <template>
@@ -22,10 +22,16 @@
       </div>
     </div>
 
-    <div class="musicCD">
+    <div class="musicCD" v-show="isLyricsShow">
       <img src="@/assets/needle-ab.png" :class="{imgNeedle: isPause, imgNeedleActive: !isPause}"/>
       <img src="@/assets/cd.png" class="imgCD"/>
       <img :src="currentMusic.al.picUrl" class="imgBg" :class="{imgBgPaused: isPause, imgBgActive: !isPause}"/>
+    </div>
+
+    <div class="musicLyrics" ref="musicLyrics">
+      <p v-for="line in formatLyrics" :key="line" class="lineLyric" 
+        :class="{active: (currentTime * 1000 >= line.time && currentTime * 1000 < line.nextTime)}"
+      >{{ line.lineLyric }}</p>
     </div>
 
     <div class="detailsBottom">
@@ -49,12 +55,56 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      isLyricsShow: false,
+    }
+  },
+  computed: {
+    ...mapState(["lyrics", "currentTime", "playlistIndex", "playlist"]),
+    formatLyrics: function () {
+      let arr = []
+      if (this.lyrics.lyric) {
+        arr = this.lyrics.lyric.split('\n').filter(Boolean).map((item, i) => {
+          // lyric in one line: [00:00.000] 作曲 : 雁夜风
+          // so we use reg to get min, sec, ms and lineLyric
+          const match = item.match(/^\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)$/)
+          let min = match[1]
+          let sec = match[2]
+          let ms = match[3]
+          let time = parseInt(min) * 60000 + parseInt(sec) * 1000 + parseInt(ms)
+          let lineLyric = match[4].trim()
+          return {min, sec, ms, time, lineLyric}
+        })
+        arr.forEach((item, i) => {
+          if (i == arr.length - 1) {
+            item.nextTime = 0
+          } else {
+            item.nextTime = arr[i + 1].time
+          }
+        })
+      }
+      return arr
+    }
+  },
   props: ['currentMusic', 'play', 'isPause'],
   mounted() {
-    console.log(this.currentMusic)
+    // console.log(this.currentMusic)
+    // console.log(this.lyrics.lyric)
+
+    this.lyricsCenter = this.$refs.musicLyrics.offsetHeight / 2
+    console.log(this.lyricsCenter)
+  },
+  watch: {
+    currentTime: function () {
+      // let currentLineLyric = document.querySelector(".active")
+      // console.log([currentLineLyric])
+      // const currentLineTop = this.lyricsCenter - currentLineLyric.offsetTop
+      // this.$refs.musicLyrics.style.transform = `translateY(-${currentLineTop}px)`
+    }
   },
   methods: {
     formatAuthors: function (arr) {
@@ -187,6 +237,26 @@ export default {
   }
   .imgBgPaused {
     animation-play-state: paused;
+  }
+}
+
+.musicLyrics {
+  height: 8rem;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0 .4rem;
+  align-items: center;
+  overflow: scroll;
+  .lineLyric {
+    text-align: center;
+    padding: .2rem;
+    transition: all 0.1s linear;
+  }
+  .active {
+    color: white;
+    font-size: .375rem;
+    font-weight: bold;
+    transition: all 0.1s linear;
   }
 }
 

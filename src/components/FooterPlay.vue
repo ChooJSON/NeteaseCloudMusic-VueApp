@@ -3,7 +3,7 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-06 21:48:32
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-07 05:01:42
+ * @LastEditTime: 2023-04-08 00:16:55
  * @Description: Footer play part.
 -->
 <template>
@@ -41,33 +41,13 @@ import PlayShowDetails from './PlayShowDetails.vue'
 import { mapMutations, mapState } from 'vuex'
 
 export default {
-  components: {
-    PlayShowDetails,
-  },
-  methods: {
-    formatAuthors: function (arr) {
-      let authors = []
-      arr.forEach(item => {
-        authors.push(item.name)
-      })
-      return authors.join('/')
-    },
-    play: function () {
-      if (this.$refs.audio.paused) {
-        this.$refs.audio.play()
-        this.changeButton(false)
-      } else {
-        this.$refs.audio.pause()
-        this.changeButton(true)
-      }
-    },
-    ...mapMutations(['changeButton', 'changePlayShow'])
-  },
-  computed: {
-    ...mapState(['playlist', 'playlistIndex', 'isPause', 'isPlayShow']),
-  },
   mounted() {
-    console.log(this.$refs)
+    // console.log(this.$refs)
+    this.$store.dispatch("getMusicLyrics", this.playlist[this.playlistIndex].id)
+    this.updateTime()
+  },
+  updated() {
+    this.$store.dispatch("getMusicLyrics", this.playlist[this.playlistIndex].id)  
   },
   watch: {
     // If the index or playlist changes, the the music will be played automatedly.
@@ -83,7 +63,56 @@ export default {
         this.changeButton(false)
       }
     },
-  }
+  },
+  data() {
+    return {
+      interval: 0,
+    }
+  },
+  components: {
+    PlayShowDetails,
+  },
+  methods: {
+    formatAuthors: function (arr) {
+      let authors = []
+      arr.forEach(item => {
+        authors.push(item.name)
+      })
+      return authors.join('/')
+    },
+    play: function () {
+      if (this.$refs.audio.paused) {
+        this.$refs.audio.play()
+        this.changeButton(false)
+        // when playing, trigger the function
+        this.updateTime()
+      } else {
+        this.$refs.audio.pause()
+        this.changeButton(true)
+        // when pausing, clear the interval
+        clearInterval(this.interval)
+      }
+    },
+    // trigger this function every 1s
+    updateTime: function () {
+      this.interval = setInterval(() => {
+        this.updateCurrentTime(this.$refs.audio.currentTime)
+      }, 500)
+    },
+    ...mapMutations([
+      'changeButton', 
+      'changePlayShow', 
+      'updateCurrentTime'
+    ],)
+  },
+  computed: {
+    ...mapState([
+      'playlist', 
+      'playlistIndex', 
+      'isPause', 
+      'isPlayShow'
+    ]),
+  },
 }
 </script>
 

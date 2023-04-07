@@ -29,7 +29,6 @@ export default {
       state.playlist = res.data.playlist
       // get all songs in the music list
       let resSongs = await getMusicListSongs(id)
-      console.log(resSongs)
       state.songs = resSongs.data.songs
       // 防止由于页面刷新、数据丢失，将数据保存在 sessionStorage 内
       sessionStorage.setItem('musicListDetails', JSON.stringify(state))
