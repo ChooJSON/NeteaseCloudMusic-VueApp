@@ -12,13 +12,14 @@
       <i class="fa-solid fa-bars"></i>
     </div>
     <div class="topBar">
-      <span>我的</span>
+      <span @click="$router.push('/userinfo')">我的</span>
       <span class="active">发现</span>
       <span>云村</span>
       <span>视频</span>
     </div>
     <div class="topRight">
-      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-magnifying-glass" @click="$router.push('/search')">
+      </i>
     </div>
   </div>
 </template>

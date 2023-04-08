@@ -3,14 +3,14 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-07 05:00:00
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-08 02:19:42
+ * @LastEditTime: 2023-04-09 04:51:17
  * @Description: Current music details.
 -->
 <template>
   <img :src="currentMusic.al.picUrl" class="bgDetails">
   <div class="layout">
     <div class="detailsTop">
-      <div class="topLeft" @click="changePlayShow">
+      <div class="topLeft" @click="backHome">
         <i class="fa-solid fa-arrow-left"></i>
       </div>
       <div class="topCenter">
@@ -22,13 +22,13 @@
       </div>
     </div>
 
-    <div class="musicCD" v-show="isLyricsShow">
+    <div class="musicCD fade-transition" v-show="!isLyricsShow" @click="isLyricsShow = true">
       <img src="@/assets/needle-ab.png" :class="{imgNeedle: isPause, imgNeedleActive: !isPause}"/>
       <img src="@/assets/cd.png" class="imgCD"/>
       <img :src="currentMusic.al.picUrl" class="imgBg" :class="{imgBgPaused: isPause, imgBgActive: !isPause}"/>
     </div>
 
-    <div class="musicLyrics" ref="musicLyrics">
+    <div class="musicLyrics fade-transition" ref="musicLyrics" v-show="isLyricsShow" @click="isLyricsShow = false">
       <p v-for="line in formatLyrics" :key="line" class="lineLyric" 
         :class="{active: (currentTime * 1000 >= line.time && currentTime * 1000 < line.nextTime)}"
       >{{ line.lineLyric }}</p>
@@ -42,12 +42,16 @@
         <i class="fa-solid fa-ellipsis-vertical"></i>
       </div>
 
+      <div class="progressBar">
+        <input type="range" class="progress" min="0" :max="duration" v-model="currentTime" step="0.01">
+      </div>
+
       <div class="playButtons">
         <i class="fa-solid fa-repeat"></i>
-        <i class="fa-solid fa-backward-step"></i>
+        <i class="fa-solid fa-backward-step" @click="goPlay(-1)"></i>
         <i class="fa-solid fa-circle-play" @click="play" v-if="isPause"></i>
         <i class="fa-solid fa-circle-pause" @click="play" v-else></i>
-        <i class="fa-solid fa-forward-step"></i>
+        <i class="fa-solid fa-forward-step" @click=goPlay(1)></i>
         <i class="fa-solid fa-bars"></i>
       </div>
     </div>
@@ -64,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["lyrics", "currentTime", "playlistIndex", "playlist"]),
+    ...mapState(["lyrics", "currentTime", "playlistIndex", "playlist", "duration"]),
     formatLyrics: function () {
       let arr = []
       if (this.lyrics.lyric) {
@@ -81,7 +85,8 @@ export default {
         })
         arr.forEach((item, i) => {
           if (i == arr.length - 1) {
-            item.nextTime = 0
+            item.nextTime = this.duration
+            // console.log(this.musicLength * 1000)
           } else {
             item.nextTime = arr[i + 1].time
           }
@@ -90,20 +95,32 @@ export default {
       return arr
     }
   },
-  props: ['currentMusic', 'play', 'isPause'],
+  props: ['currentMusic', 'play', 'isPause', 'addDuration'],
   mounted() {
     // console.log(this.currentMusic)
     // console.log(this.lyrics.lyric)
+    
+    // this.lyricsCenter = this.$refs.musicLyrics.offsetHeight / 2
+    // console.log(this.lyricsCenter)
 
-    this.lyricsCenter = this.$refs.musicLyrics.offsetHeight / 2
-    console.log(this.lyricsCenter)
+    this.addDuration()
   },
   watch: {
-    currentTime: function () {
+    currentTime: function (newValue) {
       // let currentLineLyric = document.querySelector(".active")
       // console.log([currentLineLyric])
       // const currentLineTop = this.lyricsCenter - currentLineLyric.offsetTop
       // this.$refs.musicLyrics.style.transform = `translateY(-${currentLineTop}px)`
+
+      // if currentTime == duration, then play the next music
+      if (newValue == this.duration) {
+        if (this.playlistIndex + 1 == this.playlist.length) {
+          this.updatePlaylistIndex(0)
+          this.play()
+        } else {
+          this.updatePlaylistIndex(this.playlistIndex + 1)
+        }
+      }
     }
   },
   methods: {
@@ -114,7 +131,22 @@ export default {
       })
       return authors.join('/')
     },
-    ...mapMutations(['changeButton', 'changePlayShow'])
+    backHome: function () {
+      this.isLyricsShow = false
+      this.changePlayShow()
+    },
+
+    // change songs by clicking the forward or backward button
+    goPlay: function (num) {
+      let index = this.playlistIndex + num
+      if (index < 0) {
+        index = this.playlist.length - 1
+      } else if (index == this.playlist.length) {
+        index = 0
+      }
+      this.updatePlaylistIndex(index)
+    },
+    ...mapMutations(['changeButton', 'changePlayShow', 'updatePlaylistIndex'])
   }
 }
 </script>
@@ -157,13 +189,11 @@ export default {
   width: 100%;
   padding: .4rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   color: rgb(255, 255, 255);
-  .topLeft {
-    flex: 1;
-  }
   .topCenter {
-    flex: 1;
+    width: 5rem;
     text-align: center;
     .musicTitle {
       font-size: .35rem;
@@ -180,7 +210,6 @@ export default {
     }
   }
   .topRight {
-    flex: 1;
     text-align: end;
   }
 }
@@ -260,6 +289,10 @@ export default {
   }
 }
 
+.fade-transition {
+  transition: opacity 0.5s;
+}
+
 .detailsBottom {
   width: 100%;
   .detailsButtons {
@@ -271,6 +304,18 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+  }
+
+  .progressBar {
+    padding: 0 .4rem;
+    .progress {
+      width: 100%;
+      height: .06rem;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-color: red;
+    }
   }
 
   .playButtons {

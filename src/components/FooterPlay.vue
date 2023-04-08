@@ -3,13 +3,13 @@
  * @Github: https://github.com/RiverHell-AI
  * @Date: 2023-04-06 21:48:32
  * @LastEditors: RiverHell
- * @LastEditTime: 2023-04-08 00:16:55
+ * @LastEditTime: 2023-04-09 03:28:14
  * @Description: Footer play part.
 -->
 <template>
   <div class="footerPlay">
     <div class="footerLeft" @click="changePlayShow">
-      <img :src="playlist[playlistIndex].al.picUrl" class="cover"/>
+      <img :src="playlist[playlistIndex].al.picUrl" class="cover" :class="{coverPaused: isPause, coverActive: !isPause}"/>
       <div class="playInfo">
         <div class="title">
           {{ playlist[playlistIndex].name }}<span> - {{ formatAuthors(playlist[playlistIndex].ar) }}</span>
@@ -31,6 +31,7 @@
         :currentMusic="playlist[playlistIndex]"
         :play="play"
         :isPause="isPause"
+        :addDuration="addDuration"
       />
     </van-popup>
   </div>
@@ -47,7 +48,8 @@ export default {
     this.updateTime()
   },
   updated() {
-    this.$store.dispatch("getMusicLyrics", this.playlist[this.playlistIndex].id)  
+    this.$store.dispatch("getMusicLyrics", this.playlist[this.playlistIndex].id)
+    this.addDuration()
   },
   watch: {
     // If the index or playlist changes, the the music will be played automatedly.
@@ -99,10 +101,14 @@ export default {
         this.updateCurrentTime(this.$refs.audio.currentTime)
       }, 500)
     },
+    addDuration: function () {
+      this.updateDuration(this.$refs.audio.duration)
+    },
     ...mapMutations([
       'changeButton', 
       'changePlayShow', 
-      'updateCurrentTime'
+      'updateCurrentTime',
+      'updateDuration',
     ],)
   },
   computed: {
@@ -139,21 +145,39 @@ export default {
       height: 1rem;
       border-radius: 0.5rem;
       border: 2px solid white;
+      // rotating animation
+      animation: rotate 10s linear infinite;
     }
+
+    @keyframes rotate {
+      0% {
+        transform: rotateZ(0deg);
+      }
+      100% {
+        transform: rotateZ(360deg);
+      }
+    }
+    .coverActive {
+      animation-play-state: running;
+    }
+    .coverPaused {
+      animation-play-state: paused;
+    }
+
     .playInfo {
       margin-left: .2rem;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
       .title {
-        font-size: .4rem;
+        font-size: .35rem;
         font-weight: bolder;
         width: 4rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         span {
-          font-size: .3rem;
+          font-size: .28rem;
           color: rgba(255, 255, 255, 0.75);
         }
       }

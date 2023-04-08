@@ -68,6 +68,10 @@ export default {
       return 0.1 * (4 - String(num).length) + 'rem'
     }
 
+    function getHeight() {
+      let songslistHeight = document.querySelector(".songsList")
+    }
+
     return { changeCount, formatAuthors, fontSize }
   },
   props: ['songs', 'subscribedCount'],

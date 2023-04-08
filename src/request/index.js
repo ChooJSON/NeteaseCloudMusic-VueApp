@@ -9,8 +9,8 @@
 import axios from 'axios'
 
 let service = axios.create({
-  baseURL: "http://localhost:3000/",
-  // baseURL: "http://iwenwiki.com:3000/",
+  // baseURL: "http://localhost:3000/",
+  baseURL: "https://netease-cloud-music-api-olive.vercel.app/",
   timeout: 3000,
 })
 

@@ -17,7 +17,7 @@
       <span>歌单</span>
     </div>
     <div class="topRight">
-      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-magnifying-glass" @click="$router.push('/search')"></i>
       <i class="fa-solid fa-ellipsis-vertical"></i>
     </div>
   </div>

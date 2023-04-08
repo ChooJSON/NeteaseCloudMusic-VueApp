@@ -8,7 +8,8 @@
 -->
 <template>
   <router-view/>
-  <FooterPlay/>
+  <!-- In login page, this component won't be shown. -->
+  <FooterPlay v-show="$store.state.isFooterPlayShow"/>
 </template>
 
 <script>
