@@ -24,16 +24,18 @@
 ## 项目展示
 一些图图们~
 
-<center class="half" style="display: flex; justify-content: space-between">
-    <img src="README_imgs\发现页(iPhone 12 Pro).png" title="发现页" width="200"/><img src="README_imgs\歌单详情页(iPhone 12 Pro).png" width="200"/><img src="README_imgs\搜索页(iPhone 12 Pro).png" width="200"/>
-</center>
+<div align=center style="display: flex; justify-content: space-between; margin: 20px;">
+    <img src="README_imgs\发现页(iPhone 12 Pro).png" title="发现页" width="300"/>
+    <img src="README_imgs\歌单详情页(iPhone 12 Pro).png" width="300"/>
+    <img src="README_imgs\搜索页(iPhone 12 Pro).png" width="300"/>
+</div>
 
-<br>
 
-
-<center class="half" style="display: flex; justify-content: space-between">
-    <img src="README_imgs\黑胶唱片页(iPhone 12 Pro).png" width="200"/>     <img src="README_imgs\歌词页(iPhone 12 Pro).png" width="200"/>     <img src="README_imgs\登录页(iPhone 12 Pro).png" width="200"/>
-</center>
+<div align=center style="display: flex; justify-content: space-between; margin: 20px;">
+    <img src="README_imgs\黑胶唱片页(iPhone 12 Pro).png" width="300"/>
+    <img src="README_imgs\歌词页(iPhone 12 Pro).png" width="300"/>
+    <img src="README_imgs\登录页(iPhone 12 Pro).png" width="300"/>
+</div>
 
 ## 轮子们
 - Vue3
