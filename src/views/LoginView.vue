@@ -33,8 +33,9 @@ export default {
     }
   },
   methods: {
-    login: async function () {
-      let res = await this.$store.dispatch("verifyLogin", {phone: this.phone, captcha: this.captcha})
+    login: function () {
+      this.$store.dispatch("verifyLogin", {phone: this.phone, captcha: this.captcha})
+      // let res = await this.$store.dispatch("verifyLogin", {phone: this.phone, captcha: this.captcha})
       // console.log(JSON.stringify(res))
       // if (res == 200) {
       //   this.$store.commit("updateIsLogin", true)
